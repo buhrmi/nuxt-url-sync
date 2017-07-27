@@ -15,4 +15,4 @@ Expose and share store state via the browser URL
   ]
 ```
 
-The above configuration will watch and expose the value of `selectedItems` and `openCategories` of the Vuex store in the browser URL.
+The above configuration will watch and expose the value of `selectedItems` and `openCategories` of the Vuex store in the browser URL. Makes for easy sharing of Vuex state with other people.
