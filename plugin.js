@@ -1,22 +1,47 @@
-const stateToExpose = <%= JSON.stringify(options) %>
+const options = <%= JSON.stringify(options) %>;
+let variableNames = [];
+let lastSetURL = '';
+if (options.length) {
+  variableNames = options;
+}
+else {
+  variableNames = Object.keys(options)
+}
+
 
 export default function ({isClient, app, route}) {
   // When running on client, just update the URL whenever the store state changes.
   if (isClient) {
-    for (var i = 0; i < stateToExpose.length; i++) {
-      let field = stateToExpose[i]
+    // Update the URL everytimg the state changes
+    for (var i = 0; i < variableNames.length; i++) {
+      let field = variableNames[i]
       app.store.watch(function(state, getters) {
         let newUrl = getUrlWithParamValue(field, state[field])
         history.replaceState(null, '', newUrl);
+        lastSetURL = newUrl;
       })
     }
+
+    // Monitor the URL and re-add our values if URL has changed
+    // TODO: attach to some event instead using a polling interval.
+    setInterval(function() {
+      if (window.location.toString() == lastSetURL) return;
+      for (var i = 0; i < variableNames.length; i++) {
+        let field = variableNames[i]
+        if (!options[field] || !options[field].persist) continue;
+        let newUrl = getUrlWithParamValue(field, app.store.state[field])
+        history.replaceState(null, '', newUrl);
+      }
+      lastSetURL = window.location.toString()
+    }, 100)
+  
   }
   // and when running on the server, set the initial state from URL
   // TODO: make this work when app is served from serviceworker in PWA mode
   else {
     const initialStateToSet = {}
-    for (var i = 0; i < stateToExpose.length; i++) {
-      let field = stateToExpose[i]
+    for (var i = 0; i < variableNames.length; i++) {
+      let field = variableNames[i]
       let value = getParamValue(route.fullPath, field)
       if (value) initialStateToSet[field] = value
     }
