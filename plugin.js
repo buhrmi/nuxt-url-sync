@@ -36,18 +36,18 @@ export default function ({isClient, app, route}) {
     }, 100)
   
   }
-  // and when running on the server, set the initial state from URL
+  // set the initial state from URL (on server but also on client (in case of static app))
   // TODO: make this work when app is served from serviceworker in PWA mode
-  else {
-    const initialStateToSet = {}
-    for (var i = 0; i < variableNames.length; i++) {
-      let field = variableNames[i]
-      let value = getParamValue(route.fullPath, field)
-      if (value) initialStateToSet[field] = value
-    }
-    Object.assign(app.store.state, initialStateToSet) // TODO: do this with a mutation
-    // app.store.commit('SET_STATE_FROM_URL', initialStateToSet)
+  
+  const initialStateToSet = {}
+  for (var i = 0; i < variableNames.length; i++) {
+    let field = variableNames[i]
+    let value = getParamValue(route.fullPath, field)
+    if (value) initialStateToSet[field] = value
   }
+  Object.assign(app.store.state, initialStateToSet) // TODO: do this with a mutation
+  // app.store.commit('SET_STATE_FROM_URL', initialStateToSet)
+
 }
 
 const getUrlWithParamValue = function(paramName, paramValue) {
