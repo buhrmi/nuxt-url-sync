@@ -15,11 +15,11 @@ Expose and share store state via the browser URL
   ]
 ```
 
-The above configuration will watch and expose the value of `selectedItems` and `openCategories` of the Vuex store in the browser URL as query parameters. Makes for easy sharing of Vuex state with other people.
+The above configuration will watch and expose the value of `selectedItems` and `openCategories` of the Vuex store in the browser URL as query parameters (that means, the browser URL will look something like `mydomain.com?selectedItems=xxx&openCategories=xxx`. Makes for easy sharing of Vuex state with other people.
 
 ### Persisting params through navigation
 
-Clicking a link (for example generated with `<nuxt-link :to="{query: {foo: 'bar'}}">`) will remove the exposed parameters from the URL. If you wish to persist them through navigation, specify the exposed state as object keys and add the `persist: true` flag:
+Clicking a link (for example generated with `<nuxt-link :to="{query: {foo: 'bar'}}">`) will remove the exposed parameters from the URL. If you want to persist them through navigation, use the following:
 
 ```js
   modules: [
@@ -34,3 +34,4 @@ Clicking a link (for example generated with `<nuxt-link :to="{query: {foo: 'bar'
 ```
 
 Nuxt URL sync will monitor the URL in an interval, and re-add the Vuex state value if the URL has changed.
+
