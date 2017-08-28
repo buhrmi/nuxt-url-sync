@@ -1,6 +1,6 @@
 {
   "name": "nuxt-url-sync",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Expose and share Vuex state via the browser URL",
   "main": "index.js",
   "scripts": {

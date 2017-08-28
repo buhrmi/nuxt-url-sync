@@ -19,7 +19,8 @@ export default function ({isClient, app, route, isServer, isStatic}) {
   }
   
   if (isStatic) {
-    setTimeout(function() {Object.assign(app.store.state, initialStateToSet)}, 1)
+    // Set the state after a timeout. Otherwise the initial DOM
+    setTimeout(function() {Object.assign(app.store.state, initialStateToSet)}, 100)
   }
 
   if (isServer) {
